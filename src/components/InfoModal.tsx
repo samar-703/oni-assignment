@@ -14,14 +14,13 @@ interface InfoModalProps {
   onClose: () => void;
 }
 
-const INFO_POINTS = [
-  "Find a comfortable position, either sitting or lying down on your side.",
-  "Focus on your baby's movements. Kicks, rolls, and jabs all count as movements.",
-  "Each time you feel a movement, tap the counter button.",
-  "Continue counting until you reach 10 movements.",
-  "Most babies will reach 10 movements within 30 minutes to 2 hours.",
-  "If you notice a significant decrease in movement or don't feel 10 movements in 2 hours, contact your healthcare provider.",
-  "Track daily, preferably at the same time each day when your baby is typically active.",
+const INFO_STEPS = [
+  "Choose a time when you are least distracted or when you typically feel the fetus move.",
+  "Get comfortable. Lie on your left side or sit with your feet propped up.",
+  "Place your hands on your belly.",
+  "Start a timer or watch the clock.",
+  "Count each kick. Keep counting until you get to 10 kicks / flutters / swishes/rolls.",
+  "Once you reach 10 kicks, jot down how many minutes it took.",
 ];
 
 export default function InfoModal({ visible, onClose }: InfoModalProps) {
@@ -37,7 +36,7 @@ export default function InfoModal({ visible, onClose }: InfoModalProps) {
           <SafeAreaView style={styles.safeArea}>
             <View style={styles.header}>
               <View style={styles.handle} />
-              <Text style={styles.title}>How to track fetal movements</Text>
+              <Text style={styles.title}>Steps to count fetal kicks</Text>
               <TouchableOpacity onPress={onClose} style={styles.closeButton}>
                 <Text style={styles.closeText}>✕</Text>
               </TouchableOpacity>
@@ -47,10 +46,10 @@ export default function InfoModal({ visible, onClose }: InfoModalProps) {
               contentContainerStyle={styles.contentContainer}
               showsVerticalScrollIndicator={true}
             >
-              {INFO_POINTS.map((point, index) => (
+              {INFO_STEPS.map((step, index) => (
                 <View key={index} style={styles.bulletItem}>
-                  <Text style={styles.bullet}>•</Text>
-                  <Text style={styles.bulletText}>{point}</Text>
+                  <Text style={styles.bullet}>{index + 1}.</Text>
+                  <Text style={styles.bulletText}>{step}</Text>
                 </View>
               ))}
             </ScrollView>
