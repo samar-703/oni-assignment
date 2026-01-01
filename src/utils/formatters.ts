@@ -28,6 +28,29 @@ export function formatDuration(seconds: number): string {
 }
 
 /**
+ * Formats seconds into minutes for list display (e.g., "12 mins")
+ */
+export function formatDurationMins(seconds: number): string {
+  const mins = Math.round(seconds / 60);
+  if (mins < 1) {
+    return "< 1 min";
+  }
+  return `${mins} min${mins !== 1 ? "s" : ""}`;
+}
+
+/**
+ * Formats ISO timestamp into readable date string for list (e.g., "Sunday • 12 Oct 2025")
+ */
+export function formatDateForList(isoString: string): string {
+  const date = new Date(isoString);
+  const dayName = date.toLocaleDateString("en-US", { weekday: "long" });
+  const day = date.getDate();
+  const month = date.toLocaleDateString("en-US", { month: "short" });
+  const year = date.getFullYear();
+  return `${dayName} • ${day} ${month} ${year}`;
+}
+
+/**
  * Formats ISO timestamp into readable date string
  */
 export function formatDate(isoString: string): string {
