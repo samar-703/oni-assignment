@@ -1,21 +1,36 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
+import { useThemeColors } from "../utils/colors";
 
 export default function ArticleCard() {
+  const colors = useThemeColors();
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.surface }]}>
       <View style={styles.imageContainer}>
-        <View style={styles.imagePlaceholder}>
+        <View
+          style={[
+            styles.imagePlaceholder,
+            { backgroundColor: colors.surfaceSecondary },
+          ]}
+        >
           <Text style={styles.placeholderEmoji}>🤰</Text>
         </View>
       </View>
       <View style={styles.content}>
-        <Text style={styles.title}>Article</Text>
-        <Text style={styles.description} numberOfLines={2}>
+        <Text style={[styles.title, { color: colors.textSecondary }]}>
+          Article
+        </Text>
+        <Text
+          style={[styles.description, { color: colors.text }]}
+          numberOfLines={2}
+        >
           Importance of daily fetal movement counting in pregnancy
         </Text>
         <View style={styles.footer}>
-          <Text style={styles.readTime}>5 min read</Text>
+          <Text style={[styles.readTime, { color: colors.textTertiary }]}>
+            5 min read
+          </Text>
           <View style={styles.bookmark}>
             <Text style={styles.bookmarkIcon}>🔖</Text>
           </View>
@@ -28,7 +43,6 @@ export default function ArticleCard() {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: "#fff",
     borderRadius: 12,
     marginHorizontal: 16,
     marginVertical: 12,
@@ -46,7 +60,6 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 8,
-    backgroundColor: "#FFF0F5",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -59,7 +72,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 12,
-    color: "#E91E8C",
     fontWeight: "600",
     textTransform: "uppercase",
     letterSpacing: 0.5,
@@ -67,7 +79,6 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#1a1a1a",
     lineHeight: 20,
     marginVertical: 4,
   },
@@ -78,7 +89,6 @@ const styles = StyleSheet.create({
   },
   readTime: {
     fontSize: 12,
-    color: "#888",
   },
   bookmark: {
     padding: 4,

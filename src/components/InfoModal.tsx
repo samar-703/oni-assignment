@@ -1,5 +1,13 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+  useColorScheme,
+} from "react-native";
+import { useThemeColors } from "../utils/colors";
 
 interface InfoModalProps {
   visible: boolean;
@@ -40,6 +48,8 @@ const INFO_STEPS = [
 ];
 
 export default function InfoModal({ visible, onClose }: InfoModalProps) {
+  const colors = useThemeColors();
+
   return (
     <Modal
       visible={visible}
@@ -47,22 +57,40 @@ export default function InfoModal({ visible, onClose }: InfoModalProps) {
       transparent={true}
       onRequestClose={onClose}
     >
-      <View style={styles.overlay}>
-        <View style={styles.sheet}>
+      <View style={[styles.overlay, { backgroundColor: colors.overlay }]}>
+        <View style={[styles.sheet, { backgroundColor: colors.surface }]}>
           <View style={styles.header}>
             <View style={styles.titleRow}>
-              <Text style={styles.icon}>☰</Text>
-              <Text style={styles.title}>Steps to count fetal kicks</Text>
+              <Text style={[styles.icon, { color: colors.text }]}>☰</Text>
+              <Text style={[styles.title, { color: colors.text }]}>
+                Steps to count fetal kicks
+              </Text>
             </View>
-            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-              <Text style={styles.closeText}>✕</Text>
+            <TouchableOpacity
+              onPress={onClose}
+              style={[
+                styles.closeButton,
+                { backgroundColor: colors.surfaceSecondary },
+              ]}
+            >
+              <Text style={[styles.closeText, { color: colors.textSecondary }]}>
+                ✕
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.content}>
             {INFO_STEPS.map((step, index) => (
-              <View key={index} style={styles.stepCard}>
-                <Text style={styles.stepNumber}>{index + 1}.</Text>
-                <Text style={styles.stepText}>
+              <View
+                key={index}
+                style={[
+                  styles.stepCard,
+                  { backgroundColor: colors.surfaceSecondary },
+                ]}
+              >
+                <Text style={[styles.stepNumber, { color: colors.text }]}>
+                  {index + 1}.
+                </Text>
+                <Text style={[styles.stepText, { color: colors.text }]}>
                   {step.text}
                   <Text style={styles.boldText}>{step.bold}</Text>
                   {step.rest}
@@ -86,13 +114,11 @@ export default function InfoModal({ visible, onClose }: InfoModalProps) {
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
   },
   sheet: {
-    backgroundColor: "#fff",
     borderRadius: 16,
     width: "100%",
   },
@@ -112,24 +138,20 @@ const styles = StyleSheet.create({
   icon: {
     fontSize: 18,
     marginRight: 10,
-    color: "#1a1a1a",
   },
   title: {
     fontSize: 17,
     fontWeight: "700",
-    color: "#1a1a1a",
   },
   closeButton: {
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: "#f0f0f0",
     justifyContent: "center",
     alignItems: "center",
   },
   closeText: {
     fontSize: 14,
-    color: "#666",
     fontWeight: "500",
   },
   content: {
@@ -138,14 +160,12 @@ const styles = StyleSheet.create({
   },
   stepCard: {
     flexDirection: "row",
-    backgroundColor: "#f5f5f5",
     borderRadius: 8,
     padding: 14,
     marginBottom: 8,
   },
   stepNumber: {
     fontSize: 15,
-    color: "#1a1a1a",
     fontWeight: "400",
     marginRight: 8,
     minWidth: 20,
@@ -153,7 +173,6 @@ const styles = StyleSheet.create({
   stepText: {
     flex: 1,
     fontSize: 14,
-    color: "#1a1a1a",
     lineHeight: 20,
   },
   boldText: {

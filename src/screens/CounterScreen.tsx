@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StatusBar,
   Alert,
+  useColorScheme,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -13,12 +14,15 @@ import { RootStackParamList } from "../types";
 import { saveSession, generateId } from "../storage/sessions";
 import { formatTime } from "../utils/formatters";
 import InfoModal from "../components/InfoModal";
+import { useThemeColors } from "../utils/colors";
 
 type CounterScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, "Counter">;
 };
 
 export default function CounterScreen({ navigation }: CounterScreenProps) {
+  const colors = useThemeColors();
+  const isDark = useColorScheme() === "dark";
   const [seconds, setSeconds] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
@@ -84,43 +88,78 @@ export default function CounterScreen({ navigation }: CounterScreenProps) {
   }
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-      <View style={styles.container}>
-        <View style={styles.header}>
+    <SafeAreaView
+      style={[styles.safeArea, { backgroundColor: colors.surface }]}
+    >
+      <StatusBar
+        barStyle={isDark ? "light-content" : "dark-content"}
+        backgroundColor={colors.surface}
+      />
+      <View style={[styles.container, { backgroundColor: colors.background }]}>
+        <View
+          style={[
+            styles.header,
+            {
+              backgroundColor: colors.surface,
+              borderBottomColor: colors.border,
+            },
+          ]}
+        >
           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-            <Text style={styles.backText}>←</Text>
+            <Text style={[styles.backText, { color: colors.text }]}>←</Text>
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Record DFM</Text>
+          <Text style={[styles.headerTitle, { color: colors.text }]}>
+            Record DFM
+          </Text>
           <TouchableOpacity
             onPress={() => setShowInfo(true)}
             style={styles.infoButton}
           >
-            <Text style={styles.infoText}>ⓘ</Text>
+            <Text style={[styles.infoText, { color: colors.text }]}>ⓘ</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.content}>
-          <View style={styles.instructionContainer}>
-            <Text style={styles.instructionText}>
+          <View
+            style={[
+              styles.instructionContainer,
+              { backgroundColor: colors.surfaceSecondary },
+            ]}
+          >
+            <Text style={[styles.instructionText, { color: colors.text }]}>
               Stop recording after{"\n"}10 kicks
             </Text>
           </View>
 
           <View style={styles.timerContainer}>
-            <Text style={styles.timer}>{formatTime(seconds)}</Text>
+            <Text style={[styles.timer, { color: colors.text }]}>
+              {formatTime(seconds)}
+            </Text>
           </View>
 
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={[
                 styles.controlButton,
-                isRunning ? styles.stopButton : styles.startButton,
+                {
+                  backgroundColor: isRunning
+                    ? colors.buttonSecondary
+                    : colors.accent,
+                },
               ]}
               onPress={handleStartStop}
               activeOpacity={0.8}
             >
-              <Text style={styles.controlButtonText}>
+              <Text
+                style={[
+                  styles.controlButtonText,
+                  {
+                    color: isRunning
+                      ? colors.buttonSecondaryText
+                      : colors.accentText,
+                  },
+                ]}
+              >
                 {isRunning ? "Stop" : "Start"}
               </Text>
             </TouchableOpacity>
@@ -128,7 +167,12 @@ export default function CounterScreen({ navigation }: CounterScreenProps) {
             <TouchableOpacity
               style={[
                 styles.saveButton,
-                seconds === 0 && styles.saveButtonDisabled,
+                {
+                  backgroundColor:
+                    seconds === 0 ? colors.surfaceSecondary : colors.surface,
+                  borderColor:
+                    seconds === 0 ? colors.borderLight : colors.accent,
+                },
               ]}
               onPress={handleSave}
               activeOpacity={0.8}
@@ -137,14 +181,16 @@ export default function CounterScreen({ navigation }: CounterScreenProps) {
               <Text
                 style={[
                   styles.saveButtonText,
-                  seconds === 0 && styles.saveButtonTextDisabled,
+                  {
+                    color: seconds === 0 ? colors.textDisabled : colors.accent,
+                  },
                 ]}
               >
                 Save
               </Text>
             </TouchableOpacity>
 
-            <Text style={styles.helpLink}>
+            <Text style={[styles.helpLink, { color: colors.accent }]}>
               What if I am not getting{"\n"}enough kicks?
             </Text>
           </View>
@@ -159,21 +205,17 @@ export default function CounterScreen({ navigation }: CounterScreenProps) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#fff",
   },
   container: {
     flex: 1,
-    backgroundColor: "#fafafa",
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: "#fff",
     paddingHorizontal: 16,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
   },
   backButton: {
     padding: 8,
@@ -181,12 +223,10 @@ const styles = StyleSheet.create({
   },
   backText: {
     fontSize: 24,
-    color: "#1a1a1a",
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#1a1a1a",
   },
   infoButton: {
     padding: 8,
@@ -194,7 +234,6 @@ const styles = StyleSheet.create({
   },
   infoText: {
     fontSize: 22,
-    color: "#E91E8C",
   },
   content: {
     flex: 1,
@@ -204,7 +243,6 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   instructionContainer: {
-    backgroundColor: "#f5f5f5",
     paddingVertical: 16,
     paddingHorizontal: 24,
     borderRadius: 16,
@@ -213,7 +251,6 @@ const styles = StyleSheet.create({
   instructionText: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#1a1a1a",
     textAlign: "center",
     lineHeight: 26,
   },
@@ -221,15 +258,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 70,
   },
-  timerLabel: {
-    fontSize: 16,
-    color: "#888",
-    marginBottom: 8,
-  },
   timer: {
     fontSize: 72,
     fontWeight: "200",
-    color: "#1a1a1a",
     fontVariant: ["tabular-nums"],
   },
   buttonContainer: {
@@ -242,42 +273,25 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: "center",
   },
-  startButton: {
-    backgroundColor: "#E91E8C",
-  },
-  stopButton: {
-    backgroundColor: "#FF6B6B",
-  },
   controlButtonText: {
-    color: "#fff",
     fontSize: 18,
     fontWeight: "600",
   },
   saveButton: {
-    backgroundColor: "#fff",
     paddingVertical: 18,
     borderRadius: 12,
     alignItems: "center",
     borderWidth: 2,
-    borderColor: "#E91E8C",
-  },
-  saveButtonDisabled: {
-    borderColor: "#ddd",
   },
   saveButtonText: {
-    color: "#E91E8C",
     fontSize: 18,
     fontWeight: "600",
   },
-  saveButtonTextDisabled: {
-    color: "#ccc",
-  },
   helpLink: {
     fontSize: 14,
-    color: "#1a1a1a",
     textAlign: "center",
     textDecorationLine: "underline",
-    marginTop: 5,
+    marginTop: 1,
     lineHeight: 20,
   },
 });
