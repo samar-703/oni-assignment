@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderBottomWidth: 1,
     borderBottomColor: "#f0f0f0",
+    alignItems: "center",
   },
   headerTitle: {
     fontSize: 24,
