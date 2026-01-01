@@ -7,6 +7,7 @@ import {
   Modal,
   useColorScheme,
 } from "react-native";
+import { BlurView } from "expo-blur";
 import { useThemeColors } from "../utils/colors";
 
 interface InfoModalProps {
@@ -49,15 +50,20 @@ const INFO_STEPS = [
 
 export default function InfoModal({ visible, onClose }: InfoModalProps) {
   const colors = useThemeColors();
+  const isDark = useColorScheme() === "dark";
 
   return (
     <Modal
       visible={visible}
-      animationType="slide"
+      animationType="fade"
       transparent={true}
       onRequestClose={onClose}
     >
-      <View style={[styles.overlay, { backgroundColor: colors.overlay }]}>
+      <BlurView
+        intensity={50}
+        tint={isDark ? "dark" : "light"}
+        style={styles.overlay}
+      >
         <View style={[styles.sheet, { backgroundColor: colors.surface }]}>
           <View style={styles.header}>
             <View style={styles.titleRow}>
@@ -106,7 +112,7 @@ export default function InfoModal({ visible, onClose }: InfoModalProps) {
             ))}
           </View>
         </View>
-      </View>
+      </BlurView>
     </Modal>
   );
 }
