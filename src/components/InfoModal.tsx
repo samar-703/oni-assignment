@@ -57,59 +57,65 @@ export default function InfoModal({ visible, onClose }: InfoModalProps) {
       visible={visible}
       animationType="fade"
       transparent={true}
+      statusBarTranslucent={true}
       onRequestClose={onClose}
     >
       <BlurView
-        intensity={50}
+        intensity={15}
         tint={isDark ? "dark" : "light"}
-        style={styles.overlay}
+        experimentalBlurMethod="dimezisBlurView"
+        style={styles.blurContainer}
       >
-        <View style={[styles.sheet, { backgroundColor: colors.surface }]}>
-          <View style={styles.header}>
-            <View style={styles.titleRow}>
-              <Text style={[styles.icon, { color: colors.text }]}>☰</Text>
-              <Text style={[styles.title, { color: colors.text }]}>
-                Steps to count fetal kicks
-              </Text>
-            </View>
-            <TouchableOpacity
-              onPress={onClose}
-              style={[
-                styles.closeButton,
-                { backgroundColor: colors.surfaceSecondary },
-              ]}
-            >
-              <Text style={[styles.closeText, { color: colors.textSecondary }]}>
-                ✕
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.content}>
-            {INFO_STEPS.map((step, index) => (
-              <View
-                key={index}
+        <View style={styles.overlay}>
+          <View style={[styles.sheet, { backgroundColor: colors.surface }]}>
+            <View style={styles.header}>
+              <View style={styles.titleRow}>
+                <Text style={[styles.icon, { color: colors.text }]}>☰</Text>
+                <Text style={[styles.title, { color: colors.text }]}>
+                  Steps to count fetal kicks
+                </Text>
+              </View>
+              <TouchableOpacity
+                onPress={onClose}
                 style={[
-                  styles.stepCard,
+                  styles.closeButton,
                   { backgroundColor: colors.surfaceSecondary },
                 ]}
               >
-                <Text style={[styles.stepNumber, { color: colors.text }]}>
-                  {index + 1}.
+                <Text
+                  style={[styles.closeText, { color: colors.textSecondary }]}
+                >
+                  ✕
                 </Text>
-                <Text style={[styles.stepText, { color: colors.text }]}>
-                  {step.text}
-                  <Text style={styles.boldText}>{step.bold}</Text>
-                  {step.rest}
-                  {step.bold2 && (
-                    <Text style={styles.boldText}>{step.bold2}</Text>
-                  )}
-                  {step.rest2}
-                  {step.bold3 && (
-                    <Text style={styles.boldText}>{step.bold3}</Text>
-                  )}
-                </Text>
-              </View>
-            ))}
+              </TouchableOpacity>
+            </View>
+            <View style={styles.content}>
+              {INFO_STEPS.map((step, index) => (
+                <View
+                  key={index}
+                  style={[
+                    styles.stepCard,
+                    { backgroundColor: colors.surfaceSecondary },
+                  ]}
+                >
+                  <Text style={[styles.stepNumber, { color: colors.text }]}>
+                    {index + 1}.
+                  </Text>
+                  <Text style={[styles.stepText, { color: colors.text }]}>
+                    {step.text}
+                    <Text style={styles.boldText}>{step.bold}</Text>
+                    {step.rest}
+                    {step.bold2 && (
+                      <Text style={styles.boldText}>{step.bold2}</Text>
+                    )}
+                    {step.rest2}
+                    {step.bold3 && (
+                      <Text style={styles.boldText}>{step.bold3}</Text>
+                    )}
+                  </Text>
+                </View>
+              ))}
+            </View>
           </View>
         </View>
       </BlurView>
@@ -118,6 +124,9 @@ export default function InfoModal({ visible, onClose }: InfoModalProps) {
 }
 
 const styles = StyleSheet.create({
+  blurContainer: {
+    flex: 1,
+  },
   overlay: {
     flex: 1,
     justifyContent: "center",
