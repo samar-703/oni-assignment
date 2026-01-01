@@ -91,7 +91,7 @@ export default function CounterScreen({ navigation }: CounterScreenProps) {
           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
             <Text style={styles.backText}>←</Text>
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Track Movement</Text>
+          <Text style={styles.headerTitle}>Record DFM</Text>
           <TouchableOpacity
             onPress={() => setShowInfo(true)}
             style={styles.infoButton}
