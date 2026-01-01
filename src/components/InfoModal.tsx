@@ -44,7 +44,8 @@ export default function InfoModal({ visible, onClose }: InfoModalProps) {
             </View>
             <ScrollView
               style={styles.content}
-              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.contentContainer}
+              showsVerticalScrollIndicator={true}
             >
               {INFO_POINTS.map((point, index) => (
                 <View key={index} style={styles.bulletItem}>
@@ -106,7 +107,11 @@ const styles = StyleSheet.create({
     color: "#888",
   },
   content: {
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  contentContainer: {
+    paddingBottom: 40,
   },
   bulletItem: {
     flexDirection: "row",
