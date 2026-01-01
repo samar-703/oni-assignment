@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Modal,
-  ScrollView,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
 
 interface InfoModalProps {
   visible: boolean;
@@ -15,12 +7,36 @@ interface InfoModalProps {
 }
 
 const INFO_STEPS = [
-  "Choose a time when you are least distracted or when you typically feel the fetus move.",
-  "Get comfortable. Lie on your left side or sit with your feet propped up.",
-  "Place your hands on your belly.",
-  "Start a timer or watch the clock.",
-  "Count each kick. Keep counting until you get to 10 kicks / flutters / swishes/rolls.",
-  "Once you reach 10 kicks, jot down how many minutes it took.",
+  {
+    text: "Choose a ",
+    bold: "time",
+    rest: " when you are ",
+    bold2: "least distracted",
+    rest2: " or when you typically ",
+    bold3: "feel the fetus move.",
+  },
+  {
+    text: "Get ",
+    bold: "comfortable.",
+    rest: " Lie on your ",
+    bold2: "left side",
+    rest2: " or sit with your feet propped up.",
+  },
+  { text: "Place your ", bold: "hands on your belly." },
+  { text: "", bold: "Start a timer", rest: " or watch the clock." },
+  {
+    text: "",
+    bold: "Count",
+    rest: " each kick. Keep counting until you get to ",
+    bold2: "10 kicks / flutters / swishes/rolls.",
+  },
+  {
+    text: "Once you reach ",
+    bold: "10 kicks,",
+    rest: " jot down how many ",
+    bold2: "minutes",
+    rest2: " it took.",
+  },
 ];
 
 export default function InfoModal({ visible, onClose }: InfoModalProps) {
@@ -33,27 +49,34 @@ export default function InfoModal({ visible, onClose }: InfoModalProps) {
     >
       <View style={styles.overlay}>
         <View style={styles.sheet}>
-          <SafeAreaView style={styles.safeArea}>
-            <View style={styles.header}>
-              <View style={styles.handle} />
+          <View style={styles.header}>
+            <View style={styles.titleRow}>
+              <Text style={styles.icon}>☰</Text>
               <Text style={styles.title}>Steps to count fetal kicks</Text>
-              <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-                <Text style={styles.closeText}>✕</Text>
-              </TouchableOpacity>
             </View>
-            <ScrollView
-              style={styles.content}
-              contentContainerStyle={styles.contentContainer}
-              showsVerticalScrollIndicator={true}
-            >
-              {INFO_STEPS.map((step, index) => (
-                <View key={index} style={styles.bulletItem}>
-                  <Text style={styles.bullet}>{index + 1}.</Text>
-                  <Text style={styles.bulletText}>{step}</Text>
-                </View>
-              ))}
-            </ScrollView>
-          </SafeAreaView>
+            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+              <Text style={styles.closeText}>✕</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.content}>
+            {INFO_STEPS.map((step, index) => (
+              <View key={index} style={styles.stepCard}>
+                <Text style={styles.stepNumber}>{index + 1}.</Text>
+                <Text style={styles.stepText}>
+                  {step.text}
+                  <Text style={styles.boldText}>{step.bold}</Text>
+                  {step.rest}
+                  {step.bold2 && (
+                    <Text style={styles.boldText}>{step.bold2}</Text>
+                  )}
+                  {step.rest2}
+                  {step.bold3 && (
+                    <Text style={styles.boldText}>{step.bold3}</Text>
+                  )}
+                </Text>
+              </View>
+            ))}
+          </View>
         </View>
       </View>
     </Modal>
@@ -64,69 +87,76 @@ const styles = StyleSheet.create({
   overlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "flex-end",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
   },
   sheet: {
     backgroundColor: "#fff",
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    maxHeight: "80%",
-  },
-  safeArea: {
-    paddingBottom: 20,
+    borderRadius: 16,
+    width: "100%",
   },
   header: {
+    flexDirection: "row",
     alignItems: "center",
-    paddingTop: 12,
-    paddingHorizontal: 16,
+    justifyContent: "space-between",
+    paddingTop: 20,
+    paddingHorizontal: 20,
     paddingBottom: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
   },
-  handle: {
-    width: 40,
-    height: 4,
-    backgroundColor: "#ddd",
-    borderRadius: 2,
-    marginBottom: 16,
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+  },
+  icon: {
+    fontSize: 18,
+    marginRight: 10,
+    color: "#1a1a1a",
   },
   title: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: "700",
     color: "#1a1a1a",
   },
   closeButton: {
-    position: "absolute",
-    right: 16,
-    top: 28,
-    padding: 4,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "#f0f0f0",
+    justifyContent: "center",
+    alignItems: "center",
   },
   closeText: {
-    fontSize: 20,
-    color: "#888",
+    fontSize: 14,
+    color: "#666",
+    fontWeight: "500",
   },
   content: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingHorizontal: 16,
+    paddingBottom: 20,
   },
-  contentContainer: {
-    paddingBottom: 40,
-  },
-  bulletItem: {
+  stepCard: {
     flexDirection: "row",
-    marginBottom: 16,
-    paddingRight: 16,
+    backgroundColor: "#f5f5f5",
+    borderRadius: 8,
+    padding: 14,
+    marginBottom: 8,
   },
-  bullet: {
-    fontSize: 16,
-    color: "#E91E8C",
-    marginRight: 12,
-    lineHeight: 22,
-  },
-  bulletText: {
-    flex: 1,
+  stepNumber: {
     fontSize: 15,
-    color: "#444",
-    lineHeight: 22,
+    color: "#1a1a1a",
+    fontWeight: "400",
+    marginRight: 8,
+    minWidth: 20,
+  },
+  stepText: {
+    flex: 1,
+    fontSize: 14,
+    color: "#1a1a1a",
+    lineHeight: 20,
+  },
+  boldText: {
+    fontWeight: "700",
   },
 });
