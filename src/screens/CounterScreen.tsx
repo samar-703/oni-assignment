@@ -143,6 +143,10 @@ export default function CounterScreen({ navigation }: CounterScreenProps) {
                 Save
               </Text>
             </TouchableOpacity>
+
+            <Text style={styles.helpLink}>
+              What if I am not getting{"\n"}enough kicks?
+            </Text>
           </View>
         </View>
 
@@ -231,7 +235,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: "100%",
     gap: 16,
-    marginTop: 80,
+    marginTop: 70,
   },
   controlButton: {
     paddingVertical: 18,
@@ -267,5 +271,13 @@ const styles = StyleSheet.create({
   },
   saveButtonTextDisabled: {
     color: "#ccc",
+  },
+  helpLink: {
+    fontSize: 14,
+    color: "#1a1a1a",
+    textAlign: "center",
+    textDecorationLine: "underline",
+    marginTop: 5,
+    lineHeight: 20,
   },
 });
