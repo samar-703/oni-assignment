@@ -66,7 +66,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
                 </Text>
               </TouchableOpacity>
               {sessions.length > 0 && (
-                <Text style={styles.sectionTitle}>Your records</Text>
+                <Text style={styles.sectionTitle}>Past records</Text>
               )}
             </>
           }
