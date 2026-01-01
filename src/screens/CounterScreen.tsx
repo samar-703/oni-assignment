@@ -101,15 +101,14 @@ export default function CounterScreen({ navigation }: CounterScreenProps) {
         </View>
 
         <View style={styles.content}>
-          <View style={styles.timerContainer}>
-            <Text style={styles.timerLabel}>Time elapsed</Text>
-            <Text style={styles.timer}>{formatTime(seconds)}</Text>
-          </View>
-
           <View style={styles.instructionContainer}>
             <Text style={styles.instructionText}>
-              Tap Start to begin tracking. Count 10 kicks, then Save.
+              Stop recording after{"\n"}10 kicks
             </Text>
+          </View>
+
+          <View style={styles.timerContainer}>
+            <Text style={styles.timer}>{formatTime(seconds)}</Text>
           </View>
 
           <View style={styles.buttonContainer}>
@@ -141,7 +140,7 @@ export default function CounterScreen({ navigation }: CounterScreenProps) {
                   seconds === 0 && styles.saveButtonTextDisabled,
                 ]}
               >
-                Save Session
+                Save
               </Text>
             </TouchableOpacity>
           </View>
@@ -196,12 +195,27 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     paddingHorizontal: 24,
+    paddingTop: 60,
+  },
+  instructionContainer: {
+    backgroundColor: "#f5f5f5",
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    borderRadius: 16,
+    marginBottom: 24,
+  },
+  instructionText: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#1a1a1a",
+    textAlign: "center",
+    lineHeight: 26,
   },
   timerContainer: {
     alignItems: "center",
-    marginBottom: 32,
+    marginBottom: 70,
   },
   timerLabel: {
     fontSize: 16,
@@ -214,19 +228,10 @@ const styles = StyleSheet.create({
     color: "#1a1a1a",
     fontVariant: ["tabular-nums"],
   },
-  instructionContainer: {
-    marginBottom: 48,
-    paddingHorizontal: 20,
-  },
-  instructionText: {
-    fontSize: 15,
-    color: "#666",
-    textAlign: "center",
-    lineHeight: 22,
-  },
   buttonContainer: {
     width: "100%",
     gap: 16,
+    marginTop: 80,
   },
   controlButton: {
     paddingVertical: 18,
