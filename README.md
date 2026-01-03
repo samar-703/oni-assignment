@@ -6,7 +6,7 @@ A React Native app for tracking daily fetal movements during pregnancy.
 
 ```bash
 npm install
-npx expo start --tunnel
+npx expo start 
 ```
 
 Scan the QR code with Expo Go (Android) or Camera app (iOS).
